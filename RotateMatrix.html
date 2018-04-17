@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html>
+	
+	<head>
+		<script>
+			var matrix = [
+										[1,2,3,4],
+										[4,5,6,7],
+										[8,9,10,11]
+									 ];
+			//Rotate a matrix: a[J][COLS -I -1] = a[I][J]
+			function rotateFunction(){
+				console.log("initial matrix: ", matrix);
+				var rows = matrix.length;
+				var cols = matrix[0].length;
+				var output = new Array();//output = [[]] would also create 2D array, but then you cant do output[i][j]=someval
+				for(var i=0; i<cols; i++)
+						output.push(new Array());
+						
+				for(var i=0; i<rows; i++)
+					for(var j=0; j<cols; j++)
+							output[j][cols-i-1] = matrix[i][j];
+							
+				console.log("rotated matrix: ", output);	
+			}			
+			
+			//Transpose a matrix: a[J][I] = a[I][J]
+			function transposeFunction(){
+				console.log("initial matrix: ", matrix);
+				console.log("is Matrix array : ", matrix.constructor === Array);
+				var rows = matrix.length;
+				var cols = matrix[0].length;
+				var output = new Array();
+				for(var i=0; i<cols; i++)
+						output.push(new Array());
+						
+				for(var i=0; i<rows; i++)
+					for(var j=0; j<cols; j++)
+							output[j][i] = matrix[i][j];
+							
+				console.log("transposed matrix: ", output);	
+			}				
+					
+				
+		</script>
+	</head>
+	
+	<body onload="rotateFunction();transposeFunction()">
+		Rotate a matrix by 90 degrees
+	</body>
+	
+</html>

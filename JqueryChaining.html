@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html>
+	
+	<head>
+		<script>
+			var str = " $('.myClass').css('color','red').text('Click me!').click(function(){ alert('Clicked');  })  ";
+			function chain(){
+				var actions = str.trim().split(').');
+				actions[actions.length-1] = actions[actions.length-1].slice(0, -1);//Remove last character : )
+				var item;
+				
+				actions.forEach(function(val, index, arr){
+					//console.log(val);
+					
+					if(val.startsWith('$',0)){
+						val = val.replace("$('.",'').replace("'", '');
+						item = document.getElementsByClassName(val)[0];
+						console.log('Jquery selector', val, item);
+					}else if(val.startsWith('css',0)){
+						val = val.replace("css(",'').replace(/'/g,'');   //Global replace
+						var cssParams = val.split(',');
+						//TODO: check if color is to be updated or something else
+						item.style.color = cssParams[1];
+						console.log('CSS selector', cssParams);
+					}else if(val.startsWith('text',0)){
+						val = val.replace("text(",'').replace(/'/g,''); 
+						item.innerHTML = val;
+						console.log("text selector");
+					}else if(val.startsWith('click',0)){
+						val = val.replace("click(", '');
+						var func = new Function("return (" + val + ")")();
+						item.addEventListener("click", func);
+						console.log('click selector', val);
+						
+					}
+					
+					
+					
+					
+				});
+				
+			}	
+		</script>
+	</head>
+	
+	<body onload="chain()">
+		Implement Jquery Chaining
+		<div class="myClass">This text will get replaced</div> 
+	</body>
+	
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html>
+	
+	<head>
+		<script>
+			function Person(name, age){
+				this.name = name;
+				this.age = age;	
+				this.getInfo = function(){
+					console.log("Person: ", this.name, this.age);
+				}
+			}
+			
+			function Doctor(name, age, registerationId){
+				Person.call(this, name, age); //Other way to inherit using prototypes is commented out below
+				this.registerationId = registerationId;
+				this.getInfo = function(){ 
+					console.log("Doctor: ", this.name, this.age, this.registerationId);
+				}
+			}
+			
+			//Doctor.prototype = Person;
+			//Doctor.prototype.constructor = Doctor;
+			
+			function getDoctor(name, age, registerationId){
+				var doctor = new Doctor(name, age, registerationId);
+				doctor.getInfo();   //overridden method in Doctor gets called
+			}
+			
+		</script>
+	</head>
+	
+	<body onload="getDoctor('Ramit', 30, 12)">
+		<title>Inheritance</title>
+		Inheritance in JS
+	</body>
+	
+</html>
