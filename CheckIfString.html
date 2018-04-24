@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script>
+			is_string = function(input) {
+                if (Object.prototype.toString.call(input) === '[object String]')
+                    return true;
+                else
+                    return false;   
+                    };
+                console.log(`w3resource = ${is_string('w3resource')}`);
+                console.log(`[1, 2, 4, 0] = ${is_string([1, 2, 4, 0])}`);
+		</script>
+	</head>
+	
+	<body>
+		<title>Check If String</title>
+		Write a JavaScript function to check whether an 'input' is a string or not.
+	</body>
+	
+</html>
