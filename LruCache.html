@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script>
+
+                class Node {
+                    constructor(data){
+                        console.log(`Creating node with val : ${data}`);
+                        this.data = data;
+                        this.prev = null;
+                        this.next = null;
+                    };
+                    getData(){
+                        return this.data;
+                    }
+                    setPrev(node){
+                        this.prev = node;
+                    }
+                    getPrev(){
+                        return this.prev;
+                    }
+                    setNext(node){
+                        this.next = node;
+                    }
+                    getNext(){
+                        return this.next;
+                    }
+                }
+                
+                class LruCache {
+                    constructor(cacheSize){
+                        this.maxSize = cacheSize;
+                        this.curSize = 0;
+                        this.start = null;
+                        this.end = null;
+                    }
+                    get(data){
+                        console.log(`Get request for data: ${data}`);
+                        var node;
+                        if(!this.start){
+                            console.log(`Cache empty !!`);
+                            node = new Node(data);
+                            this.start = node;
+                            this.end = node;
+                            this.curSize++;
+                        }else{ 
+                            node = this.start;
+                            var found = false;
+                            while(node != null && !found){
+                                if(node.getData() == data){
+                                    found = true;
+                                    //handle boundry conditions
+                                    if(this.start == this.end){
+                                        //do nothing for single element
+                                    }else if(node == this.end){
+                                        //do nothing
+                                    }else if(node == this.start){
+                                        this.start = node.next();
+                                        this.start.setPrev(null);
+                                        this.end.setNext(node);
+                                        node.setPrev(this.end);
+                                        node.setNext(null);
+                                        this.end = node;
+                                    }else{
+                                        node.getPrev().setNext(node.getNext());
+                                        node.getNext().setPrev(node.getPrev());
+                                        this.end.setNext(node);
+                                        node.setPrev(this.end);
+                                        node.setNext(null);
+                                        this.end = node;
+                                    }
+                                    console.log(`Cache hit !!`);
+                                    return node;
+                                }
+                                node = node.getNext();
+                            }
+                            
+                            console.log(`Cache Miss !!`);
+                            
+                            node = new Node(data);
+                            this.end.setNext(node);
+                            node.setPrev(this.end);
+                            this.end = node;
+                            this.curSize++;
+                            if(this.curSize > this.maxSize){
+                                console.log('Deleting old record ', this.start.getData())
+                                this.start = this.start.getNext();
+                                this.curSize--;
+                            }
+                        }
+                        
+                    }
+                    printCache(){
+                        let node = this.start;
+                        let str = '>>>> Cache contents';
+                        while(node != null){
+                            str += (', ' + node.getData());
+                            node = node.getNext();
+                        }
+                        console.log(str);
+                    }
+                }
+
+                const cache = new LruCache(5);
+                cache.get('a');
+                cache.printCache();
+                cache.get('d');
+                cache.printCache();
+                cache.get('e');
+                cache.printCache();
+                cache.get('e');
+                cache.printCache();
+                cache.get('d');
+                cache.printCache();
+                cache.get('f');
+                cache.printCache();
+                cache.get('g');
+                cache.printCache();
+                cache.get('h');
+                cache.printCache();
+                cache.get('d');
+                cache.printCache();
+		</script>
+	</head>
+	
+	<body>
+		<title>Lru Cache</title>
+		Implement Lru Cache (using ES6 classes)
+	</body>
+	
+</html>
